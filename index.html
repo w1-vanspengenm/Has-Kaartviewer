@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>HAS Kaartviewer</title>
+        <link rel="shortcut icon" type="image/x-icon" href="images/has_favicon.ico">
+        <link rel="icon" href="images/has_favicon.ico" type="image/x-icon">
+        <script src="Scripts/jquery-3.1.1.min.js"></script>
+        <script src="Scripts/leaflet.js"></script>
+        <script src="Scripts/myScript.js"></script>
+        <link rel="stylesheet" type="text/css" href="CSS/leaflet.css">
+        <link rel="stylesheet" type="text/css" href="CSS/style.css">
+    </head>
+    <body>
+        <div id="logo">
+            <img src="images/has_logo.png" alt="HAS logo">
+        </div>
+        <div id="map"></div>
+        <div id="menu">
+            <label for="achtergrond">Kies uw achtergrondkaart:</label>
+            <select id="achtergrond" onchange="backgroundSwitch()">
+                <option value="grijs">Grijs tinten</option>
+                <option value="osm">Open street map</option>
+                <option value="satelliet">Satelliet beelden</option>
+            </select>
+            <br>
+            <label for="webservice">Typ uw webservice in:</label>
+            <input type="text" class="textfield" id="webservice">
+        </div>
+    </body>
+</html>

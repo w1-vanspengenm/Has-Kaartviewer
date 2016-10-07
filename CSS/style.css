@@ -1,0 +1,52 @@
+body
+{
+    margin: 0px;
+    padding: 0px;
+}
+#map
+{
+    height: 100vh;
+    width: 100vw;
+}
+#logo
+{
+    width: 10vw;
+    height: auto;
+    float: left;
+    top: 83vh;
+    left: 85vw;
+    font-family: Verdana; 
+    z-index: 2;
+    position: absolute;
+    opacity: 0.3;
+}
+#menu
+{
+    z-index: 100;
+    width: 200px;
+    height: auto;
+    border: 1px solid #000;
+    position: absolute;
+    background-color: #808080;
+    bottom: 50vh;
+    opacity: 0.2;
+    left: -170px;
+}
+#menu:hover
+{
+    opacity: 1;
+    background-color: #0084C9;
+    color: #8CD600;
+}
+.textfield:focus /*Opmaak van actief tekstveld*/
+{
+    background-color: #0084C9;
+    font-family: Verdana;
+    color: #8CD600;
+    border: none;
+}
+.textfield /*Opmaak Alle tekstvelden*/
+{
+    font-family: Verdana;
+    border: none;
+}

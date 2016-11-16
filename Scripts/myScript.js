@@ -1,3 +1,8 @@
+var count=0;
+var lagen = [];
+var kleuren;
+var URL;
+var Naam;
 var mapOptions = {
   zoomAnimation: true,
   zoomAnimationTreshold: 5,
@@ -19,29 +24,30 @@ var openStreetMap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 var satellietLayer = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
     });
-$(document).ready(function ()
-{
-      makeMap();
+    $(document).ready(function () {
+        $(".cb_layer").click( function () {
+            var i = $(this).index();
+            alert(i);
+        });
+        makeMap();
         // in beeld brengen
-    $('#menu').on('mouseenter', function ()
-    {
-        $(this).clearQueue();
-        $(this).animate(
+        $('#menu').on('mouseenter', function () {
+            $(this).clearQueue();
+            $(this).animate(
 
     {
         left: '5px'
     }, 1500, 'linear');
-    });
-    // uit beeld halen
-    $('#menu').on('mouseleave', function ()
-    {
-        $(this).animate(
+        });
+        // uit beeld halen
+        $('#serviceToevoegen').on('click', function () {
+            $("#menu").animate(
 
         {
-            left: '-170px'
+            left: '-250px'
         }, 1000, 'linear')
+        });
     });
-});
 
 function makeMap()
 {
@@ -69,4 +75,54 @@ function backgroundSwitch()
             map.addLayer(satellietLayer);
             break;
     }
+}
+function sT()
+{
+    URL = { url:$('#webserviceURL').val()};
+    Naam = $('#webserviceNaam').val();
+    $.ajax(
+    {
+        url: 'PHP/geoproxy.php',
+        method: 'post',
+        dataType: 'json',
+        data: URL
+    })
+    .done(function (data) {
+        getRandomKleur();
+        var laag = L.geoJson(data, {
+            style: function (feature) {
+                return { color: kleuren };
+            }
+        }).addTo(map);
+        lagen.push(laag);
+        count++;
+        makeLayerList();
+    })
+    .fail(function () {
+        console.log("kan data niet ophalen");
+    });
+}
+function getRandomKleur() {
+    var letters = 'ABCDEF0123456789';
+    var kleur = '#';
+    for (var i = 0; i < 6; i++ ) {
+        kleur += letters[Math.floor(Math.random() * 16)];
+    }
+    kleuren = kleur;
+}
+function makeLayerList()
+{
+    var label = '<label for="cb'+count+'">' + Naam + '</label>';
+    var li = '<li>'+label+'<input type="checkbox" class="cb_layer" id="cb' + count + '" checked=checked>';
+    $('#serviceLijst').append(li);
+    $("#serviceLijst input:checkbox").on("click", function () {
+        var index = $("#serviceLijst input:checkbox").index(this);
+        console.log(this);
+        if (this.checked) {
+            map.addLayer(lagen[index]);
+        }
+        else {
+            map.removeLayer(lagen[index]);
+        }
+    });
 }

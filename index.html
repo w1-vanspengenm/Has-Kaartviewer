@@ -19,7 +19,7 @@
         <div id="map"></div>
         <div id="menu">
             <form id="menuForm">
-                <table class="formTable">
+                <table class="formTable" id="formTable">
                     <tr>
                         <td><label for="achtergrond">Kies uw achtergrondkaart:</label></td>
                         <td><select id="achtergrond" name="achtergrond" onchange="backgroundSwitch()">
@@ -36,6 +36,22 @@
                     <tr>
                         <td><label for="webserviceNaam">Vul een webservice naam in:</label></td>
                         <td><input type="text" class="textfield" id="webserviceNaam" name="webserviceNaam"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="soortService">Kies het soort webservice:</label></td>
+                        <td><select id="soortService" name="soortService" onchange="showfields();">
+                        <option value="wfs">WFS</option>
+                        <option value="wms">WMS</option>
+                        </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label id="layerNaamLabel" for="layerNaam" hidden>Vul naam gewenste wms laag in:</label></td>
+                        <td><input type="text" class="textfield" id="layerNaam" name="layerNaam" hidden></td>
+                    </tr>
+                    <tr>
+                        <td><label id="crsLabel" for="crs" hidden>Vul het crs van de laag in</label></td>
+                        <td><input type="text" id="crs" name="crs" class="textfield" hidden></td>
                     </tr>
                     <tr>
                         <td>

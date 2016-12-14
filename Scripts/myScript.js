@@ -3,6 +3,8 @@ var lagen = [];
 var kleuren;
 var URL;
 var Naam;
+var wmsLayer;
+var crs;
 var mapOptions = {
   zoomAnimation: true,
   zoomAnimationTreshold: 5,
@@ -78,6 +80,8 @@ function backgroundSwitch()
 }
 function sT()
 {
+    if($("#soortService").val()=='wfs')
+    {
     URL = { url:$('#webserviceURL').val()};
     Naam = $('#webserviceNaam').val();
     $.ajax(
@@ -94,13 +98,34 @@ function sT()
                 return { color: kleuren };
             }
         }).addTo(map);
+        if($("#URL").val()!="")
+        {
         lagen.push(laag);
         count++;
         makeLayerList();
+        }
     })
     .fail(function () {
         console.log("kan data niet ophalen");
     });
+    }
+    else if($("#soortService").val()=='wms')
+    {
+        crs = L.CRS.+$("#crs").val();
+        wmsLayer = $("#layerNaam").val();
+        URL = $("#webserviceURL").val();
+        Naam = $('#webserviceNaam').val();
+        var laag = L.tileLayer.wms(URL, {
+            layers:wmsLayer,
+            transparent: true
+        });
+        laag.options.crs = crs;
+        laag.addTo(map);
+        console.log(laag);
+        lagen.push(laag);
+        count++;
+        makeLayerList();
+    }
 }
 function getRandomKleur() {
     var letters = 'ABCDEF0123456789';
@@ -125,4 +150,21 @@ function makeLayerList()
             map.removeLayer(lagen[index]);
         }
     });
+}
+function showfields()
+{
+    if($("#soortService").val()=='wms')
+    {
+        $("#layerNaamLabel").prop('hidden', false);
+        $("#layerNaam").prop('hidden', false);
+        $("#crsLabel").prop('hidden', false);
+        $("#crs").prop('hidden', false);
+    }
+    else
+    {
+        $("#layerNaamLabel").prop('hidden', true);
+        $("#layerNaam").prop('hidden', true);
+        $("#crsLabel").prop('hidden', true);
+        $("#crs").prop('hidden', true);
+    }
 }
